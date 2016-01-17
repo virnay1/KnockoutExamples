@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+  <body>
+    <h2>Patients : </h2>
+    <ul data-bind = "template: {name: 'listTemplate', foreach: list}">
+    </ul>
+    <fieldset style = "float:left">
+      <legend>Add new Patient</legend>
+
+      Patient Name <input type ="text" data-bind = "value: pName"/><br/>
+      Patient Id <input type ="text" data-bind = "value: pId"/><br/>
+      Patient Summary <input type ="text" data-bind = "value: pSummary"/><br/>
+      <p>
+         <button data-bind = "click: addPatient">Add</button>         
+      </p>    
+   </fieldset>
+   <div style = "float:right">
+      <h3>Remove a Patient</h3>
+      <select data-bind = "template: {name: 'patientRemovalTemplate', foreach: list}">
+      </select>
+      <button data-bind = "click: removePatient">Remove</button> 
+   </div>
+   <script src="jquery-2.1.0.min.js"></script>
+   <script src = "knockout-3.4.0.js"></script>
+   <script>
+      $(function(){
+         var patients = [{pName: "abc", pId: 1, summary: "fever"},
+                                {pName: "pqr", pId: 2, summary: "high bp"}, 
+                                ];
+         var viewModel = {
+           list: ko.observableArray(patients),
+           pName: ko.observable(""),
+           pId: ko.observable(""),
+           pSummary: ko.observable(""),
+           addPatient: function(){
+             this.list.push({pName: this.pName(), pId: this.pId(), summary: this.pSummary});
+           },
+           removePatient: function(){
+             
+           }
+        };       
+        ko.applyBindings(viewModel);
+      });
+   </script>
+   <script id = "listTemplate" type = "text/html">
+      <li data-bind = "text: pName"></li>
+   </script>
+   <script id="patientRemovalTemplate" type = "text/html">
+      <option data-bind  = "value: pId, text: pName"></option>
+   </script>
+  </body>
+</html>
